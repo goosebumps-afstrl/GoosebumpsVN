@@ -1,0 +1,39 @@
+<video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+    <source src="assets/videos/bg_option.mp4" type="video/mp4">
+</video>
+<div class="overlay animate-shake z-10" style="background-color: transparent; backdrop-filter: blur(px);"></div>
+<div class="overlay z-10" style="background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);"></div>
+
+<div class="absolute top-4 left-3 z-30 flex items-center justify-center w-16 h-8">
+    <img src="assets/Logo/gosebumps_logo.png" alt="" id="intro-logo" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'">
+</div>
+
+<button class="absolute top-4 right-4 w-7 h-7 rounded-full glass-hud flex items-center justify-center z-30 hover:bg-white/20 transition-all p-0" onclick="GAME.ui.toggleModal('modal-option')">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+</button>
+
+<div class="z-20 text-center animate-fade-in flex flex-col items-center w-full h-full justify-end pb-[15%] relative">
+    <div class="mb-10 text-white font-bold tracking-[0.2em] text-xl drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+        GOOSEBUMPS
+    </div>
+    
+    <div id="intro-buttons" class="flex flex-col gap-2 w-auto px-6 max-w-[160px]">
+        <button id="continue-button" class="glass-button highlight-blue justify-center hidden !py-1.5 !text-xs" onclick="GAME.ui.openLoadGameMenu()">
+            <span class="font-medium">LOAD GAME</span>
+        </button>
+        <button id="new-game-button" class="glass-button justify-center !py-1.5 !text-xs !bg-transparent border border-blue-400/50 hover:bg-blue-500/10" style="box-shadow: 0 0 15px rgba(50, 150, 255, 0.4), inset 0 0 10px rgba(50, 150, 255, 0.2);" onclick="GAME.logic.startInputScene()">
+            <span class="font-bold tracking-wide">NEW GAME</span>
+        </button>
+    </div>
+
+    <div class="mt-8 w-full px-4 flex flex-col gap-1 items-center z-30">
+        <p class="text-[6px] sm:text-[7px] text-gray-300 font-light leading-relaxed text-center max-w-xs">
+            The story, characters, all names, and the other contents in this game are fictitious.<br>
+            Any simillarities are purely coincidental.
+        </p>
+        <p class="text-[6px] text-gray-500 font-light mt-1">Game version: 0.1.0 Beta</p>
+    </div>
+</div>

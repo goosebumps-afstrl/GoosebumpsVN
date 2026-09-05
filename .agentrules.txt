@@ -1,0 +1,45 @@
+Project Context & Rules: After Strolling (Life-Sim Visual Novel)
+
+Kamu adalah agen AI yang membantu mengembangkan game berbasis web "After Strolling".
+Harap patuhi aturan koding berikut sebelum memodifikasi, membuat, atau menghapus kode apa pun:
+
+ARSITEKTUR KODE (MODULAR)
+
+state.js : HANYA untuk variabel data (state) dan konstanta (constants). Jangan taruh fungsi logika di sini.
+
+logic.js : KHUSUS untuk fungsi logika game (perpindahan waktu, uang, mekanik game) dan urutan alur cerita (Story Sequences).
+
+ui.js : KHUSUS untuk manipulasi DOM, update tampilan, render list, dan notifikasi/toast.
+
+main.js : Entry point untuk inisialisasi dan event listener global.
+
+ATURAN UI DAN STYLING
+
+Gunakan HANYA Tailwind CSS classes untuk styling di HTML.
+
+Hindari menulis CSS manual (inline atau tag ) kecuali untuk keyframes animasi yang kompleks. Jika terpaksa, arahkan ke style.css.
+
+Pastikan UI tetap responsif (mobile-first) menggunakan ukuran layar relatif (max-w-[450px], w-full, h-[100dvh]).
+
+STANDAR INTERAKSI & JAVASCRIPT
+
+DILARANG menggunakan alert(), confirm(), atau prompt().
+
+Gunakan GAME.ui.showToast("pesan") untuk notifikasi singkat.
+
+Gunakan GAME.ui.toggleModal('id_modal') untuk pop-up/konfirmasi.
+
+Selalu gunakan helper global GAME.logic.[namaFungsi]() atau GAME.ui.[namaFungsi]() untuk event onclick di file HTML.
+
+FORMAT STORY SEQUENCE
+
+Setiap membuat sequence/cutscene cerita baru di logic.js, gunakan array objek JSON sesuai format ini:
+{ type: "image/dialogue/choice/action", src: "...", effect: "cross-dissolve/blur-pulse", wait: ms, name: "NPC", text: "..." }
+
+Gunakan GAME.logic.advanceTime(x) HANYA pada akhir sequence atau type: "action", bukan langsung saat tombol lokasi diklik.
+
+SEBELUM MENULIS KODE
+
+Selalu periksa dan sesuaikan kode dengan state yang sudah ada.
+
+Jangan pernah menghapus komentar bawaan seperti <!-- ... existing code ... --> saat memberikan perbedaan/perubahan kode (diff).

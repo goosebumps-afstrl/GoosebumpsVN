@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>After Strolling - Life-Sim Visual Novel</title>
+
+    <!-- Howler.js for robust Web Audio API -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+    <script src="js/locations/Minimarket.js"></script>
+    <script src="js/locations/PusatKerja.js"></script>
+    <script src="js/locations/KantorUXBR.js"></script>
+    <script src="js/locations/Bar.js"></script>
+    <script src="js/locations/TamanKota.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tailwind.css">
+</head>
+
+<body>
+    <div id="game-container">
+        <!-- Notification Container -->
+        <div id="notification-container"
+            class="absolute top-[80px] left-1/2 -translate-x-1/2 w-11/12 max-w-[320px] z-[100] flex flex-col gap-2 pointer-events-none">
+        </div>
+
+        <!-- UI Global -->
+        <!-- City Map Overlay (Global) -->
+        <div id="view-city-overlay" class="absolute inset-0 hidden flex-col justify-center items-end pr-6 gap-3 pb-20 z-[40] pointer-events-auto">
+            <button id="btn-map-minimarket" class="map-label w-48 text-right justify-end shadow-md"
+                onclick="GAME.logic.enterMapLocation(GAME.locations.Minimarket.enter)">
+                <span class="mr-2">Minimarket</span><span class="text-xl">🏪</span>
+            </button>
+            <button id="btn-map-bar" class="map-label w-48 text-right justify-end shadow-md"
+                onclick="GAME.logic.enterMapLocation(GAME.locations.Bar.enter, 'assets/videos/0M_Ambroom_maps.mp4')">
+                <span class="mr-2">Ambrosia Room</span><span class="text-xl">🍸</span>
+            </button>
+            <button id="btn-map-taman" class="map-label w-48 text-right justify-end shadow-md"
+                onclick="GAME.logic.enterMapLocation(GAME.locations.TamanKota.enter)">
+                <span class="mr-2">Taman Kota</span><span class="text-xl">🌳</span>
+            </button>
+            <button id="btn-map-jobs" class="map-label w-48 text-right justify-end shadow-md"
+                onclick="GAME.logic.enterMapLocation(GAME.locations.PusatKerja.enter)">
+                <span class="mr-2">Pusat Pekerjaan</span><span class="text-xl">💼</span>
+            </button>
+            <button id="btn-map-uxbr" class="map-label w-48 text-right justify-end shadow-md"
+                onclick="GAME.logic.enterMapLocation(GAME.locations.KantorUXBR.enter)">
+                <span class="mr-2">Kantor UXBR</span><span class="text-xl">🏢</span>
+            </button>
+            <!-- Hidden by default -->
+            <button id="btn-map-trixie" class="map-label w-48 text-right justify-end shadow-md hidden"
+                onclick="GAME.logic.enterMapLocation(GAME.logic.enterTrixiePlace, 'assets/videos/0M_Apgirl01_maps.mp4')">
+                <span class="mr-2">Tempat Trixie</span><span class="text-xl">🏠</span>
+            </button>
+            <button id="btn-map-clara" class="map-label w-48 text-right justify-end shadow-md hidden"
+                onclick="GAME.logic.enterMapLocation(GAME.logic.enterClaraPlace, 'assets/videos/0M_Apgirl02_maps.mp4')">
+                <span class="mr-2">Tempat Clara</span><span class="text-xl">🏠</span>
+            </button>
+            <button id="btn-map-dasha" class="map-label w-48 text-right justify-end shadow-md hidden"
+                onclick="GAME.logic.enterMapLocation(GAME.logic.enterDashaPlace, 'assets/videos/0M_Apgirl02_maps.mp4')">
+                <span class="mr-2">Tempat Dasha</span><span class="text-xl">🏠</span>
+            </button>
+            <button id="btn-map-vanya" class="map-label w-48 text-right justify-end shadow-md hidden"
+                onclick="GAME.logic.enterMapLocation(GAME.logic.enterVanyaPlace, 'assets/videos/0M_Apgirl01_maps.mp4')">
+                <span class="mr-2">Tempat Vanya</span><span class="text-xl">🏠</span>
+            </button>
+            <button id="btn-map-home" class="map-label highlight w-48 text-right justify-end shadow-md mt-4"
+                onclick="GAME.logic.enterMapLocation(GAME.logic.returnHome)">
+                <span class="mr-2">Ke Apartemen</span><span class="text-xl">🏠</span>
+            </button>
+        </div>
+        <div id="toast">Message</div>
+        <div id="screen-fader"></div>
+        <div id="error-display"
+            style="position: absolute; top: 0; left: 0; width: 100%; z-index: 9999; background: red; color: white; padding: 20px; display: none;">
+        </div>
+        <script>
+            window.addEventListener('error', function (e) {
+                var d = document.getElementById('error-display');
+                d.style.display = 'block';
+                d.innerHTML += '<p>' + e.message + ' at ' + e.filename + ':' + e.lineno + '</p>';
+            });
+        </script>
+
+        <!-- Pre-Start Loading Overlay (Bypasses Browser Autoplay Audio Policy) -->
+        <div id="pre-start-overlay"
+            class="absolute inset-0 z-[100] flex flex-col items-center justify-center pb-32 bg-black transition-all duration-1000 ease-in-out">
+            <!-- Loading Bar Container (Glassmorphism) -->
+            <div id="loading-bar-container"
+                class="relative w-64 h-8 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-1 shadow-[0_0_50px_rgba(0,150,255,0.15)] flex items-center justify-center transition-transform duration-300 hover:scale-105">
+                <!-- Loading Fill Wrapper -->
+                <div class="absolute inset-1 rounded-[10px] overflow-hidden">
+                    <!-- Loading Fill -->
+                    <div id="loading-bar-fill"
+                        class="h-full w-0 bg-gradient-to-r from-blue-600 to-cyan-400 transition-all ease-out"
+                        style="transition-duration: 250ms; box-shadow: 0 0 20px rgba(0,200,255,0.5);"></div>
+                </div>
+
+                <!-- Loading Text -->
+                <span id="loading-text"
+                    class="relative z-10 text-white/90 font-bold tracking-[0.2em] text-[10px] uppercase drop-shadow-md transition-opacity duration-500">Initializing...</span>
+            </div>
+
+            <!-- Tap to Continue Text -->
+            <div id="tap-to-continue-text"
+                class="absolute bottom-20 text-white/40 text-[6px] uppercase tracking-[0.3em] opacity-0 transition-opacity duration-1000 pointer-events-none">
+                tap to continue
+            </div>
+        </div>
+
+        <script>
+            // Real loading logic exposed for audio preloader
+            window.updateLoadingBar = function(progressPercent) {
+                const fill = document.getElementById('loading-bar-fill');
+                if (fill) fill.style.width = progressPercent + '%';
+            };
+
+            window.completeLoading = function() {
+                const text = document.getElementById('loading-text');
+                const tapText = document.getElementById('tap-to-continue-text');
+                const overlay = document.getElementById('pre-start-overlay');
+
+                // Ganti teks di dalam bar
+                if (text) {
+                    text.style.opacity = '0';
+                    setTimeout(() => {
+                        text.innerText = 'SYSTEM READY';
+                        text.style.opacity = '1';
+                    }, 500);
+                }
+
+                // Munculkan tulisan kecil
+                if (tapText) {
+                    tapText.style.opacity = '1';
+                    tapText.classList.add('animate-pulse');
+                }
+
+                // Buat layar bisa diklik untuk memulai (mengaktifkan Audio Context)
+                overlay.classList.add('cursor-pointer');
+                overlay.onclick = function () {
+                    // Animasi keluar
+                    this.style.opacity = '0';
+                    this.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        this.style.display = 'none';
+                    }, 1000);
+                };
+            };
+        </script>
+
+        <!-- Wadah Scene (Akan diisi otomatis oleh JavaScript) -->
+        <div id="scene-intro" class="scene active"></div>
+
+        <div id="scene-input" class="scene"></div>
+        <div id="scene-story" class="scene bg-black cursor-pointer overflow-hidden"
+            onclick="GAME.logic.handleStoryTap()"></div>
+        
+        <!-- Global Modal Backdrop -->
+        <div id="global-modal-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-md z-[35] hidden opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+
+        <!-- Dynamic Game Content (Layer 1) -->
+        <div id="scene-maingame" class="scene" style="justify-content: flex-start;"></div>
+        <div id="scene-gameover" class="scene bg-black cursor-pointer"></div>
+
+        <!-- Global Overlay Panels -->
+        <div id="global-panels"
+            class="absolute inset-0 pointer-events-none z-40 flex flex-col justify-center items-center">
+            <div id="view-minimarket" class="glass-panel-main hidden flex-col h-[55vh] pointer-events-auto">
+                <div class="flex justify-between items-center mb-3 border-b border-white/20 pb-2">
+                    <span class="glass-section-title m-0">Minimarket</span>
+                    <button class="glass-button glass-button-mini !w-auto !mb-0 px-3 py-1"
+                        onclick="GAME.locations.Minimarket.close()">Kembali</button>
+                </div>
+                <div id="shop-list" class="overflow-y-auto flex-1 grid grid-cols-2 gap-1 pb-2 content-start"></div>
+            </div>
+
+            <div id="view-jobs" class="glass-panel-main hidden flex-col h-[60vh] w-[85%] pointer-events-auto">
+                <div class="flex justify-between items-center mb-3 border-b border-white/20 pb-2 shrink-0">
+                    <span class="glass-section-title m-0">Pusat Pekerjaan</span>
+                    <button class="glass-button glass-button-mini !w-auto !mb-0 px-3 py-1"
+                        onclick="GAME.locations.PusatKerja.close()">Kembali</button>
+                </div>
+
+                <div class="flex-1 relative flex items-center justify-center overflow-hidden" id="job-cards-container">
+                    <!-- Cards will be injected by JS -->
+                </div>
+
+                <div class="shrink-0 flex justify-center gap-6 mt-4 pb-2">
+                    <button
+                        class="w-12 h-12 rounded-full bg-black/50 border border-white/10 shadow-lg text-red-500 text-2xl flex items-center justify-center active:scale-90 transition-transform"
+                        onclick="GAME.ui.swipeJobLeft()">✕</button>
+                    <button
+                        class="w-12 h-12 rounded-full bg-black/50 border border-white/10 shadow-lg text-green-500 text-2xl flex items-center justify-center active:scale-90 transition-transform"
+                        onclick="GAME.ui.swipeJobRight()">✓</button>
+                </div>
+            </div>
+        </div>
+        <!-- Global Top UI (Stats & Time/Money) -->
+        <div id="global-top-ui"
+            class="absolute top-0 left-0 right-0 bottom-0 pointer-events-none z-30 opacity-0 transition-opacity duration-1000">
+            <div class="w-full p-3 flex justify-between items-start pointer-events-none">
+                <div class="glass-hud flex flex-col gap-2 w-28 pointer-events-auto">
+                    <div>
+                        <div class="flex justify-between text-[8px] font-medium text-gray-200 mb-0.5">
+                            <span>Energy</span><span class="text-yellow-400 hud-text-energy">30%</span>
+                        </div>
+                        <div class="hud-bar">
+                            <div class="hud-fill fill-energy hud-bar-energy" style="width: 30%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[8px] font-medium text-gray-200 mb-0.5">
+                            <span>Hunger</span><span class="text-orange-400 hud-text-hunger">90%</span>
+                        </div>
+                        <div class="hud-bar">
+                            <div class="hud-fill fill-hunger hud-bar-hunger" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[8px] font-medium text-gray-200 mb-0.5">
+                            <span>Composure</span><span class="text-blue-400 hud-text-composure">75%</span>
+                        </div>
+                        <div class="hud-bar">
+                            <div class="hud-fill fill-composure hud-bar-composure" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW CIRCLE HUD TOP RIGHT -->
+            <div class="absolute top-[-40px] right-[-30px] w-[200px] h-[200px] rounded-full pointer-events-none flex flex-col items-end justify-center pr-20 pt-10 shadow-2xl"
+                style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 10px 30px rgba(0,0,0,0.5); transform: scale(0.7); transform-origin: top right;">
+                <div class="flex items-center gap-1 text-white mb-1.5">
+                    <span class="text-xs font-light tracking-wide hud-ui-dayname">Senin</span>
+                    <span class="text-xs font-light">|</span>
+                    <span class="text-xs font-light tracking-wide hud-ui-daytime-day">Day 0</span>
+                </div>
+
+                <div class="w-20 h-[1px] bg-white/20 mb-1.5"></div>
+
+                <div class="flex items-center gap-1.5 mb-2 text-right">
+                    <span class="text-[10px] font-medium text-gray-200 tracking-wide hud-ui-daytime-phase">Tengah
+                        Malam</span>
+                    <span class="text-sm hud-ui-daytime-icon">🌙</span>
+                </div>
+
+                <div class="flex items-center gap-1.5 text-right">
+                    <span class="text-[7px] font-bold text-gray-400 tracking-widest uppercase mt-0.5">Wallet</span>
+                    <span class="text-xs font-bold text-green-400 tracking-wider"><span
+                            class="text-green-500/80 mr-0.5">$</span><span class="hud-ui-money">150</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Bottom UI (Option & Phone) -->
+        <div id="global-bottom-ui"
+            class="absolute bottom-4 left-4 right-4 flex justify-between items-end z-30 pointer-events-none opacity-0 transition-opacity duration-1000">
+            <button
+                class="glass-hud w-7 h-7 p-0 rounded-full flex items-center justify-center hover:bg-white/20 transition-transform duration-200 active:scale-95"
+                onclick="event.stopPropagation(); GAME.ui.toggleModal('modal-option')" aria-label="Option Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </button>
+            <button id="main-phone-btn"
+                class="glass-hud w-12 h-12 p-0 rounded-full flex items-center justify-center hover:bg-white/20 transition-transform duration-200 active:scale-95"
+                onclick="event.stopPropagation(); GAME.ui.toggleModal('modal-phone')" aria-label="Handphone App">
+                <span id="phone-notif-dot"
+                    class="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full border-2 border-black hidden shadow-[0_0_8px_rgba(239,68,68,0.8)] text-white text-[9px] font-bold flex items-center justify-center pointer-events-none"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Wadah Modal Gabungan -->
+        <div id="modals-container"></div>
+    </div>
+
+    <!-- JS Utama (Gunakan type="module" agar bisa import/export) -->
+    <script type="module" src="js/main.js?v=2"></script>
+</body>
+
+</html>
