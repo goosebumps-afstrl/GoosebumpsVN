@@ -1,0 +1,398 @@
+<div id="modal-phone" class="absolute inset-0 z-40 hidden flex-col items-center justify-center p-4 transition-opacity">
+    <div class="glass-panel-main bg-black/60 w-full max-w-[240px] h-[75vh] flex flex-col relative p-0 overflow-hidden"
+        style="border-radius: 30px; padding: 0;">
+        <div class="text-white p-3 text-[10px] flex justify-between items-center font-medium bg-black/40">
+            <span id="phone-time" class="tracking-wider">Day 1</span>
+            <span>📶 100%</span>
+        </div>
+
+        <div class="flex-1 px-4 pt-3 pb-16 overflow-y-auto">
+            <div class="relative w-full mb-4 group">
+                <button id="phone-slider-left"
+                    class="absolute left-[-8px] top-[40%] -translate-y-1/2 z-10 w-5 h-5 rounded-full bg-black/80 border border-white/30 items-center justify-center text-white text-[8px] opacity-0 group-hover:opacity-100 transition-opacity hidden"
+                    onclick="GAME.ui.scrollPhoneStats(-1)">&#9664;</button>
+                <button id="phone-slider-right"
+                    class="absolute right-[-8px] top-[40%] -translate-y-1/2 z-10 w-5 h-5 rounded-full bg-black/80 border border-white/30 items-center justify-center text-white text-[8px] opacity-0 group-hover:opacity-100 transition-opacity hidden"
+                    onclick="GAME.ui.scrollPhoneStats(1)">&#9654;</button>
+
+                <div id="phone-stats-container" class="flex overflow-x-auto snap-x snap-mandatory w-full scrollbar-hide"
+                    style="-ms-overflow-style: none; scrollbar-width: none;" onscroll="GAME.ui.updateCarouselDots()">
+                    <!-- Dynamic Content -->
+                </div>
+                <div id="phone-stats-dots" class="flex justify-center gap-1.5 mt-2 h-1.5">
+                    <!-- Dots -->
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <button class="glass-button flex-col items-center text-center gap-1.5 !p-2.5 !rounded-2xl"
+                    onclick="GAME.logic.openSaveLoadMenu()">
+                    <span class="text-xl m-0">💾</span> <span class="font-medium text-[9px]">Save/Load</span>
+                </button>
+                <button class="glass-button flex-col items-center text-center gap-1.5 !p-2.5 !rounded-2xl"
+                    onclick="GAME.logic.openSahamApp()">
+                    <span class="text-xl m-0">📈</span> <span class="font-medium text-[9px]">Saham</span>
+                </button>
+                <button class="glass-button flex-col items-center text-center gap-1.5 !p-2.5 !rounded-2xl"
+                    onclick="GAME.logic.openMessageApp()">
+                    <span class="text-xl m-0 flex items-center justify-center relative">💬<span
+                            id="phone-app-message-dot"
+                            class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border border-black hidden shadow-[0_0_8px_rgba(239,68,68,0.8)] text-white text-[9px] font-bold flex items-center justify-center pointer-events-none"></span></span>
+                    <span class="font-medium text-[9px]">Message</span>
+                </button>
+                <button class="glass-button flex-col items-center text-center gap-1.5 !p-2.5 !rounded-2xl"
+                    onclick="GAME.logic.openInventoryFromPhone()">
+                    <span class="text-xl m-0">🎒</span> <span class="font-medium text-[9px]">Item</span>
+                </button>
+                <button class="glass-button flex-col items-center text-center gap-1.5 !p-2.5 !rounded-2xl"
+                    onclick="GAME.logic.openPinjolApp()">
+                    <span class="text-xl m-0">💸</span> <span class="font-medium text-[9px]">Pinjol</span>
+                </button>
+                <button class="glass-button flex-col items-center text-center gap-1.5 !p-2.5 !rounded-2xl"
+                    onclick="GAME.ui.showToast('Online Shop feature in development')">
+                    <span class="text-xl m-0">🛒</span> <span class="font-medium text-[9px]">Olshop</span>
+                </button>
+            </div>
+        </div>
+
+        <div
+            class="absolute bottom-0 left-0 right-0 p-3 flex justify-center bg-gradient-to-t from-black/50 to-transparent">
+            <button class="glass-button glass-button-mini !w-12 !h-8 justify-center !mb-0"
+                onclick="GAME.ui.toggleModal('modal-phone')" aria-label="Kembali">
+                <div class="w-6 h-1 bg-white/50 rounded-full"></div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-option" class="absolute inset-0 z-40 hidden flex-col items-center justify-center p-4">
+    <div class="glass-panel-main bg-black/60 w-full max-w-[240px] flex flex-col p-0 overflow-hidden"
+        style="border-radius: 30px;">
+        <div class="bg-black/40 p-3 border-b border-white/20 text-center shrink-0">
+            <h2 class="text-xs font-bold text-white tracking-widest uppercase m-0">Settings</h2>
+        </div>
+
+        <div class="p-4 flex flex-col gap-4 overflow-y-auto flex-1">
+            <div>
+                <p class="text-[10px] text-gray-300 mb-2 uppercase tracking-wider font-semibold">Bahasa</p>
+                <div class="flex gap-2">
+                    <button class="glass-button highlight-blue justify-center flex-1 !mb-0">ID</button>
+                    <button class="glass-button justify-center flex-1 !mb-0 opacity-50">EN</button>
+                </div>
+            </div>
+
+            <div>
+                <p class="text-[10px] text-gray-300 mb-2 uppercase tracking-wider font-semibold">Audio</p>
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-center justify-between gap-3" title="Music">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">🎵</span>
+                            <span class="text-xs text-white/80">Background Music</span>
+                        </div>
+                        <button
+                            class="relative w-10 h-6 bg-white/20 rounded-full transition-colors duration-300 outline-none"
+                            onclick="GAME.audio.toggleMuteMusic(this)">
+                            <div class="absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300"
+                                style="left: 0.25rem;"></div>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between gap-3" title="Sound Effect">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">🔊</span>
+                            <span class="text-xs text-white/80">Soun Effect</span>
+                        </div>
+                        <button
+                            class="relative w-10 h-6 bg-white/20 rounded-full transition-colors duration-300 outline-none"
+                            onclick="GAME.audio.toggleMuteSfx(this)">
+                            <div class="absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300"
+                                style="left: 0.25rem;"></div>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between gap-3" title="Voice Dialogue">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">🗣️</span>
+                            <span class="text-xs text-white/80">Voice Dialogue</span>
+                        </div>
+                        <button
+                            class="relative w-10 h-6 bg-white/20 rounded-full transition-colors duration-300 outline-none"
+                            onclick="GAME.audio.toggleMuteVoiceDialogue(this)">
+                            <div class="absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300"
+                                style="left: 0.25rem;"></div>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between gap-3" title="Voice Win Scene">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm">🏆</span>
+                            <span class="text-xs text-white/80">Voice Win Scene</span>
+                        </div>
+                        <button
+                            class="relative w-10 h-6 bg-white/20 rounded-full transition-colors duration-300 outline-none"
+                            onclick="GAME.audio.toggleMuteVoiceWinScene(this)">
+                            <div class="absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300"
+                                style="left: 0.25rem;"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-1 border-t border-white/20 pt-4">
+                <p class="text-[10px] text-gray-400 font-medium">Developer: Assunnani</p>
+            </div>
+
+            <div class="flex flex-col gap-2 mt-3">
+                <button class="glass-button justify-center" onclick="GAME.ui.toggleModal('modal-option')">Lanjutkan
+                    Game</button>
+                <button class="glass-button highlight justify-center" onclick="location.reload()">Restart Game</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-saveload" class="absolute inset-0 z-50 hidden flex-col items-center justify-center p-4">
+    <div class="glass-panel-main bg-black/60 w-full flex flex-col h-[75vh] p-0 overflow-hidden"
+        style="border-radius: 30px; padding: 0;">
+        <div class="flex justify-between items-center bg-black/40 p-3 border-b border-white/20">
+            <span class="glass-section-title m-0">Simpan / Muat</span>
+            <button class="glass-button glass-button-mini !w-auto !mb-0 px-3 py-1"
+                onclick="GAME.logic.closeSaveLoadMenu()">Kembali</button>
+        </div>
+        <div id="saveload-list" class="flex-1 overflow-y-auto p-3 flex flex-col gap-2"></div>
+        <div class="p-3 border-t border-white/20 flex flex-col gap-2 shrink-0">
+            <button class="w-full glass-button highlight-blue justify-center !mb-0 !py-2" onclick="GAME.logic.exportSaveFile()">
+                <span class="text-[10px] font-bold tracking-wider">📥 DOWNLOAD SAVE FILE</span>
+            </button>
+            <button class="w-full glass-button justify-center !mb-0 !py-2" onclick="document.getElementById('import-save-input').click()">
+                <span class="text-[10px] font-bold tracking-wider text-gray-300">📤 UPLOAD SAVE FILE</span>
+            </button>
+            <input type="file" id="import-save-input" accept=".save,.json" class="hidden" onchange="GAME.logic.importSaveFile(event)">
+        </div>
+    </div>
+</div>
+
+<div id="modal-general-confirm" class="absolute inset-0 z-[70] hidden flex-col items-center justify-center p-4">
+    <div class="glass-panel-main bg-black/60 backdrop-blur-md w-full max-w-[240px] flex flex-col p-0 overflow-hidden text-center"
+        style="border-radius: 30px;">
+        <div class="bg-black/40 p-3 border-b border-white/20">
+            <h2 id="general-confirm-title" class="text-xs font-bold text-white uppercase tracking-widest m-0">Konfirmasi
+            </h2>
+        </div>
+        <div class="p-4 flex flex-col gap-3">
+            <p id="general-confirm-text" class="text-[10px] text-gray-200 font-light leading-relaxed mb-1">Apakah Anda
+                yakin?</p>
+            <div class="flex gap-2">
+                <button class="flex-1 glass-button justify-center"
+                    onclick="GAME.ui.toggleModal('modal-general-confirm')">Batal</button>
+                <button id="general-confirm-btn" class="flex-1 glass-button highlight justify-center"
+                    onclick="">Ya</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-confirm-overwrite" class="absolute inset-0 z-[60] hidden flex-col items-center justify-center p-4">
+    <div class="glass-panel-main bg-black/60 backdrop-blur-md w-full max-w-[240px] flex flex-col p-0 overflow-hidden text-center"
+        style="border-radius: 30px;">
+        <div class="bg-black/40 p-3 border-b border-white/20">
+            <h2 class="text-xs font-bold text-white uppercase tracking-widest m-0">Timpa Save Data?</h2>
+        </div>
+        <div class="p-4 flex flex-col gap-3">
+            <p class="text-[10px] text-gray-200 font-light leading-relaxed mb-1">Slot ini sudah berisi data. Yakin ingin
+                menimpanya dengan progres saat ini?</p>
+            <div class="flex gap-2">
+                <button class="flex-1 glass-button justify-center"
+                    onclick="GAME.ui.toggleModal('modal-confirm-overwrite')">Batal</button>
+                <button id="confirm-overwrite-btn" class="flex-1 glass-button highlight justify-center"
+                    onclick="GAME.logic.confirmOverwrite()">Ya, Timpa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PHONE INVENTORY MODAL -->
+<div id="modal-phone-inventory"
+    class="absolute inset-0 z-50 hidden flex-col items-center justify-center p-4 transition-opacity">
+    <div class="glass-panel-main w-full max-w-[240px] h-[75vh] flex flex-col relative p-0 overflow-hidden"
+        style="border-radius: 30px;">
+        <div class="bg-black/40 p-3 pb-2 flex flex-col border-b border-white/10 shrink-0">
+            <div class="flex items-center w-full">
+                <button class="text-white mr-2"
+                    onclick="GAME.ui.toggleModal('modal-phone-inventory'); GAME.ui.toggleModal('modal-phone')">&#9664;</button>
+                <h3 class="text-xs font-bold text-white tracking-widest uppercase flex-1 text-center pr-4">Inventory
+                </h3>
+            </div>
+            <div class="flex gap-2 mt-2">
+                <button id="tab-phone-inv-food"
+                    class="flex-1 glass-button glass-button-mini !mb-0 highlight-blue text-[9px]"
+                    onclick="GAME.ui.renderPhoneInventory('food')">Makanan</button>
+                <button id="tab-phone-inv-nonfood" class="flex-1 glass-button glass-button-mini !mb-0 text-[9px]"
+                    onclick="GAME.ui.renderPhoneInventory('non-food')">Lainnya</button>
+            </div>
+        </div>
+
+        <div id="phone-inventory-list" class="overflow-y-auto flex-1 grid grid-cols-3 gap-2 content-start p-3"></div>
+
+        <div id="phone-inventory-preview"
+            class="shrink-0 h-28 border-t border-white/10 flex items-center p-2 gap-2 hidden">
+            <div class="w-16 h-16 bg-white/5 rounded-lg flex items-center justify-center shrink-0 relative">
+                <span id="phone-inventory-fallback" class="absolute text-2xl opacity-30"></span>
+                <img id="phone-inventory-img" src="" class="w-full h-full object-contain z-10 drop-shadow-md"
+                    onerror="this.style.display='none'; this.previousElementSibling.classList.replace('opacity-30', 'opacity-100');">
+            </div>
+            <div class="flex-1 flex flex-col justify-between h-full py-1">
+                <div>
+                    <div id="phone-inventory-name" class="font-bold text-[10px] text-white tracking-wide leading-tight">
+                    </div>
+                    <div id="phone-inventory-stats" class="text-[8px] text-gray-300 mt-1 leading-tight"></div>
+                </div>
+                <button id="phone-inventory-btn"
+                    class="glass-button glass-button-mini !mb-0 highlight-blue w-full hidden"
+                    onclick="">Gunakan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- PHONE MESSAGE MODAL (Contacts) -->
+<div id="modal-phone-message"
+    class="absolute inset-0  z-50 hidden flex-col items-center justify-center p-4  transition-opacity">
+    <div class="glass-panel-main w-full max-w-[240px] h-[75vh] flex flex-col relative p-0 overflow-hidden"
+        style="border-radius: 30px;">
+        <div class="bg-black/40 p-3 pb-2 flex items-center border-b border-white/10 shrink-0">
+            <button class="text-white mr-2"
+                onclick="GAME.ui.toggleModal('modal-phone-message'); GAME.ui.toggleModal('modal-phone')">&#9664;</button>
+            <h3 class="text-xs font-bold text-white tracking-widest uppercase flex-1 text-center pr-4">Messages</h3>
+        </div>
+        <div id="phone-contact-list" class="flex-1 overflow-y-auto p-0 flex flex-col">
+            <!-- Contacts injected here -->
+        </div>
+    </div>
+</div>
+
+<!-- PHONE MESSAGE DETAIL MODAL (Chat Room) -->
+<div id="modal-message-detail"
+    class="absolute inset-0  z-[60] hidden flex-col items-center justify-center p-4  transition-opacity">
+    <div class="glass-panel-main w-full max-w-[240px] h-[75vh] flex flex-col relative p-0 overflow-hidden"
+        style="border-radius: 30px; background: linear-gradient(180deg, rgba(20,20,30,0.95) 0%, rgba(10,10,15,0.95) 100%);">
+
+        <!-- Chat Header -->
+        <div class=" p-2 flex items-center border-b border-white/10 shrink-0 shadow-md z-10">
+            <button class="text-white p-2 mr-1" onclick="GAME.ui.toggleModal('modal-message-detail')">&#9664;</button>
+            <div
+                class="w-8 h-8 rounded-full overflow-hidden border border-white/20 shrink-0 bg-gray-800 flex items-center justify-center">
+                <img id="chat-header-img" src="" class="w-full h-full object-cover hidden">
+                <span id="chat-header-initial" class="text-xs font-bold text-gray-400">?</span>
+            </div>
+            <div class="ml-3 flex-1">
+                <h3 id="chat-header-name" class="text-xs font-bold text-white leading-none">Sender</h3>
+            </div>
+        </div>
+
+        <!-- Chat Bubbles Container -->
+        <div id="chat-bubbles-container"
+            class="flex-1 overflow-y-auto p-3 flex flex-col gap-3 relative pb-20 scrollbar-hide">
+            <!-- Bubbles injected here -->
+        </div>
+
+        <!-- Reply Action Area -->
+        <div id="chat-action-area"
+            class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 via-black/80 to-transparent hidden">
+            <div id="chat-action-buttons" class="flex flex-col gap-2 w-full pt-4">
+                <!-- Reply Buttons Injected Here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PHONE PINJOL MODAL -->
+<div id="modal-phone-pinjol"
+    class="absolute inset-0  z-50 hidden flex-col items-center justify-center p-4  transition-opacity">
+    <div class="glass-panel-main w-full max-w-[240px] h-[75vh] flex flex-col relative p-0 overflow-hidden"
+        style="border-radius: 30px;">
+        <div class="bg-red-900/40 p-3 pb-2 flex items-center border-b border-red-500/20 shrink-0">
+            <button class="text-red-100 mr-2"
+                onclick="GAME.ui.toggleModal('modal-phone-pinjol'); GAME.ui.toggleModal('modal-phone')">&#9664;</button>
+            <div class="flex-1 text-center pr-4">
+                <h3 class="text-xs font-bold text-red-100 tracking-widest uppercase">Pinjol Cepat</h3>
+                <p class="text-[8px] text-red-300">Solusi Instan Keuangan Anda</p>
+            </div>
+        </div>
+        <div id="phone-pinjol-list" class="flex-1 overflow-y-auto p-2 pb-6 flex flex-col gap-2"></div>
+    </div>
+</div>
+<div id="modal-phone-saham"
+    class="absolute inset-0 z-50 hidden flex-col items-center justify-center p-4 transition-opacity">
+    <div class="glass-panel-main flex-col h-[55vh] w-[85%] mb-3 p-0 overflow-hidden" style="padding: 0;">
+        <div class="flex justify-between items-center bg-black/40 p-3 border-b border-white/20">
+            <span class="glass-section-title m-0">LCN Exchange</span>
+            <button class="glass-button glass-button-mini !w-auto !mb-0 px-3 py-1"
+                onclick="GAME.logic.closeSahamApp()">Kembali</button>
+        </div>
+        <div id="saham-list" class="flex-1 overflow-y-auto p-3 flex flex-col gap-2"></div>
+    </div>
+</div>
+
+<div id="modal-phone-saham-detail"
+    class="absolute inset-0 z-[60] hidden flex-col items-center justify-center p-4 transition-opacity">
+    <div class="glass-panel-main flex flex-col h-[55vh] w-[85%] mb-3 p-0 overflow-hidden" style="padding: 0;">
+        <div class="flex justify-between items-center bg-black/40 p-2.5 border-b border-white/20">
+            <span id="saham-detail-title" class="glass-section-title m-0">Detail Saham</span>
+            <button class="glass-button glass-button-mini !w-auto !mb-0 px-3 py-1"
+                onclick="GAME.ui.toggleModal('modal-phone-saham-detail', false); GAME.ui.toggleModal('modal-phone-saham', false)">Kembali</button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-2.5 flex flex-col gap-2">
+            <div class="flex justify-between items-end border-b border-white/10 pb-1.5">
+                <div>
+                    <p class="text-[7px] text-gray-400 uppercase tracking-widest mb-0.5">Harga per Lembar</p>
+                    <p id="saham-detail-price" class="text-lg font-bold text-white">$0</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[7px] text-gray-400 uppercase tracking-widest mb-0.5">Dimiliki</p>
+                    <p id="saham-detail-owned" class="text-[11px] font-bold text-blue-300">0 Lembar</p>
+                    <p id="saham-detail-total-value" class="text-[10px] font-bold mt-0.5 hidden">$0</p>
+                </div>
+            </div>
+
+            <div
+                class="w-full my-1 relative bg-black/40 rounded-xl border border-white/20 shadow-inner overflow-hidden shrink-0">
+                <div style="padding-top: 56.25%;"></div>
+                <canvas id="saham-chart" class="absolute top-0 left-0 w-full h-full block"></canvas>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 text-center my-1 border-y border-white/10 py-1.5">
+                <div>
+                    <p class="text-[7px] text-gray-400 uppercase tracking-widest">Avg. Harga Beli</p>
+                    <p id="saham-detail-avg-buy" class="text-[11px] font-bold text-white mt-0.5">$0</p>
+                </div>
+                <div>
+                    <p class="text-[7px] text-gray-400 uppercase tracking-widest">Untung/Rugi</p>
+                    <p id="saham-detail-profit" class="text-[11px] font-bold text-gray-400 mt-0.5">$0</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-1 mt-0.5">
+                <label class="text-[6px] text-gray-300 uppercase tracking-wider">Jumlah</label>
+                <div class="flex gap-1.5">
+                    <button
+                        class="glass-button glass-button-mini !mb-0 flex-1 justify-center bg-white/5 !py-0.5 !px-1.5 !text-[9px]"
+                        onclick="GAME.logic.setSahamAmount(1)">1</button>
+                    <button
+                        class="glass-button glass-button-mini !mb-0 flex-1 justify-center bg-white/5 !py-0.5 !px-1.5 !text-[9px]"
+                        onclick="GAME.logic.setSahamAmount(10)">10</button>
+                    <button
+                        class="glass-button glass-button-mini !mb-0 flex-1 justify-center bg-white/5 !py-0.5 !px-1.5 !text-[9px]"
+                        onclick="GAME.logic.setSahamAmount(100)">100</button>
+                </div>
+                <input type="text" id="saham-amount" class="custom-input !py-0.5 !text-[10px] mt-1" value="0"
+                    placeholder="0" oninput="GAME.logic.clampSahamAmount()">
+            </div>
+
+            <div class="flex gap-1.5 mt-1.5">
+                <button class="glass-button highlight-blue justify-center flex-1 !mb-0 !py-0.5 !text-[10px]"
+                    onclick="GAME.logic.buyStock()">BUY</button>
+                <button class="glass-button highlight justify-center flex-1 !mb-0 !py-0.5 !text-[10px]"
+                    onclick="GAME.logic.sellStock()">SELL</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+    <source src="assets/videos/bg_option.m3u8" type="application/x-mpegURL">
+</video>
+<div class="overlay z-10" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%);">
+</div>
+
+
+<div id="input-step-name" class="absolute inset-0 flex-col items-center justify-center z-20 hidden w-full">
+    <div class="glass-panel-main flex flex-col items-center text-center !w-[75%] !max-w-[200px] !p-4">
+        <p class="text-[0.8rem] font-medium mb-3 text-gray-200">Siapa namamu?</p>
+        <input type="text" id="input-name" class="custom-input mb-3 !py-1.5 !px-2.5 !text-xs"
+            placeholder="Masukkan nama...">
+        <button class="glass-button highlight justify-center w-full !py-1.5 !text-xs"
+            onclick="GAME.logic.setName()">Continue</button>
+        <p id="name-helper-text" class="text-gray-400 mt-2 text-[8px] font-light">Kosongkan untuk menggunakan nama
+            default "James"</p>
+    </div>
+</div>
+
+<div id="input-step-condition" class="absolute inset-0 flex-col items-center justify-center z-20 hidden w-full">
+    <div class="glass-panel-main w-full max-w-[280px]">
+        <div class="glass-section-title text-center mb-4" style="margin-left: 0;">Kondisi Lahir</div>
+        <p class="text-xs text-center mb-4 text-gray-300">Pilih takdir awal kehidupanmu</p>
+
+        <button class="glass-button justify-center text-center" onclick="GAME.logic.setCondition('good')">
+            <div class="glass-button-content items-center">
+                <span class="font-semibold text-xs">Terlahir Good Looking</span>
+                <span class="glass-button-subtext">Charisma: 70% | Wisdom: 30%</span>
+            </div>
+        </button>
+
+        <button class="glass-button justify-center text-center" onclick="GAME.logic.setCondition('normal')">
+            <div class="glass-button-content items-center">
+                <span class="font-semibold text-xs">Terlahir Biasa Saja</span>
+                <span class="glass-button-subtext">Charisma: 30% | Wisdom: 70%</span>
+            </div>
+        </button>
+    </div>
+</div>
+
+<div id="input-step-tutorial"
+    class="absolute inset-0 flex-col items-center justify-center z-20 hidden w-full cursor-pointer">
+    <div class="absolute top-0 left-0 w-full p-3 flex justify-between items-start pointer-events-none">
+        <div id="tutorial-hud"
+            class="glass-hud flex flex-col gap-2 w-28 opacity-0 transition-opacity duration-1000 pointer-events-auto">
+            <div>
+                <div class="flex justify-between text-[8px] font-medium text-gray-200 mb-0.5">
+                    <span>Energy</span><span class="text-yellow-400 transition-all duration-1000"
+                        id="tut-text-energy">0%</span>
+                </div>
+                <div class="hud-bar">
+                    <div id="tut-bar-energy" class="hud-fill fill-energy transition-all duration-1000 ease-in-out"
+                        style="width: 0%;"></div>
+                </div>
+            </div>
+            <div>
+                <div class="flex justify-between text-[8px] font-medium text-gray-200 mb-0.5">
+                    <span>Hunger</span><span class="text-orange-400 transition-all duration-1000"
+                        id="tut-text-hunger">0%</span>
+                </div>
+                <div class="hud-bar">
+                    <div id="tut-bar-hunger" class="hud-fill fill-hunger transition-all duration-1000 ease-in-out"
+                        style="width: 0%;"></div>
+                </div>
+            </div>
+            <div>
+                <div class="flex justify-between text-[8px] font-medium text-gray-200 mb-0.5">
+                    <span>Composure</span><span class="text-blue-400 transition-all duration-1000"
+                        id="tut-text-composure">0%</span>
+                </div>
+                <div class="hud-bar">
+                    <div id="tut-bar-composure" class="hud-fill fill-composure transition-all duration-1000 ease-in-out"
+                        style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="z-10 text-center p-4 w-[85%] max-w-[260px] glass-panel-main transition-opacity duration-500 opacity-0 pointer-events-none"
+        id="tutorial-text-box" style="background: transparent; box-shadow: none; border: none;">
+        <p id="tutorial-text" class="text-[10px] leading-relaxed font-medium text-gray-200 italic drop-shadow-md"></p>
+        <p id="tutorial-tap-indicator"
+            class="text-gray-500 text-[10px] animate-pulse font-normal mt-6 opacity-0 transition-opacity duration-300">
+            (Tap untuk melanjutkan)</p>
+    </div>
+</div>
