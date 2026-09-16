@@ -85,22 +85,16 @@ export const logic = {
     } else {
       GAME.state.name = "James";
     }
-    this.changeInputStep("input-step-name", "input-step-condition");
-  },
-
-  setCondition(cond) {
-    if (cond === "good") {
-      GAME.state.stats.cha = 70;
-      GAME.state.stats.wis = 30;
-    } else {
-      GAME.state.stats.cha = 30;
-      GAME.state.stats.wis = 70;
-    }
+    
+    // Set default condition stats
+    GAME.state.stats.cha = 50;
+    GAME.state.stats.wis = 50;
+    
     this.startTutorial();
   },
 
   async startTutorial() {
-    this.changeInputStep("input-step-condition", "input-step-tutorial");
+    this.changeInputStep("input-step-name", "input-step-tutorial");
     await new Promise((resolve) => setTimeout(resolve, 600));
 
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

@@ -30,7 +30,8 @@
 
         <!-- UI Global -->
         <!-- City Map Overlay (Global) -->
-        <div id="view-city-overlay" class="absolute inset-0 hidden flex-col justify-center items-end pr-6 gap-3 pb-20 z-[40] pointer-events-auto">
+        <div id="view-city-overlay"
+            class="absolute inset-0 hidden flex-col justify-center items-end pr-6 gap-3 pb-20 z-[40] pointer-events-auto">
             <button id="btn-map-minimarket" class="map-label w-48 text-right justify-end shadow-md"
                 onclick="GAME.logic.enterMapLocation(GAME.locations.Minimarket.enter)">
                 <span class="mr-2">Minimarket</span><span class="text-xl">🏪</span>
@@ -114,12 +115,12 @@
 
         <script>
             // Real loading logic exposed for audio preloader
-            window.updateLoadingBar = function(progressPercent) {
+            window.updateLoadingBar = function (progressPercent) {
                 const fill = document.getElementById('loading-bar-fill');
                 if (fill) fill.style.width = progressPercent + '%';
             };
 
-            window.completeLoading = function() {
+            window.completeLoading = function () {
                 const text = document.getElementById('loading-text');
                 const tapText = document.getElementById('tap-to-continue-text');
                 const overlay = document.getElementById('pre-start-overlay');
@@ -158,9 +159,11 @@
         <div id="scene-input" class="scene"></div>
         <div id="scene-story" class="scene bg-black cursor-pointer overflow-hidden"
             onclick="GAME.logic.handleStoryTap()"></div>
-        
+
         <!-- Global Modal Backdrop -->
-        <div id="global-modal-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-md z-[35] hidden opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+        <div id="global-modal-backdrop"
+            class="absolute inset-0 bg-black/60 backdrop-blur-md z-[35] hidden opacity-0 transition-opacity duration-300 pointer-events-none">
+        </div>
 
         <!-- Dynamic Game Content (Layer 1) -->
         <div id="scene-maingame" class="scene" style="justify-content: flex-start;"></div>

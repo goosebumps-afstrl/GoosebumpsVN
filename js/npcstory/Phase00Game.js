@@ -1,37 +1,246 @@
 export function Phase00Game() {
     return [
-        { type: "action", action: () => { window.GAME.audio.playSFX("citypark"); } },
-        { type: "image", src: "assets/images/0Gm01.jpg", effect: "cross-dissolve", wait: 6000, skippable: true },
-        { type: "image", src: "assets/images/0Gm02.jpg", effect: "cross-dissolve", wait: 1000, skippable: true },
-        { type: "action", action: () => { window.GAME.audio.playSFX("swosh"); } },
-        { bg: "white", effect: "cross-dissolve", wait: 500 },
-        { type: "action", action: () => { window.GAME.audio.playSFX("chaotic"); } },
-        { type: "image", src: "assets/images/0Gm03.jpg", effect: "cross-dissolve", wait: 2000, skippable: true },
-        { type: "image", src: "assets/images/0Gm04.jpg", effect: "cross-dissolve", wait: 2000, skippable: true },
-        { type: "image", src: "assets/images/0Gm05.jpg", effect: "cross-dissolve", wait: 1500, skippable: true },
-        { type: "image", src: "assets/images/0Gm06.jpg", effect: "cross-dissolve", wait: 1500, skippable: true },
-        { type: "image", src: "assets/images/0Gm07.jpg", effect: "cross-dissolve", wait: 1500, skippable: true },
-        { type: "image", src: "assets/images/0Gm08.jpg", effect: "cross-dissolve", wait: 1500, skippable: true },
-        { type: "image", src: "assets/images/0Gm09.jpg", effect: "cross-dissolve", wait: 2000, skippable: true },
+        { bg: "black", effect: "cross-dissolve", wait: 1000 },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm01.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm01.mp4", effect: "cross-dissolve" },
         { type: "action", action: () => { window.GAME.audio.stopSFX("chaotic"); window.GAME.audio.playSFX("swosh"); } },
+        { bg: "white", effect: "cross-dissolve", wait: 500 },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm02.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm02.mp4", effect: "cross-dissolve" },
+        { type: "action", action: () => { window.GAME.audio.stopSFX("chaotic"); window.GAME.audio.playSFX("swosh"); } },
+        { bg: "white", effect: "cross-dissolve", wait: 500 },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm03.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm03.mp4", effect: "cross-dissolve", skippable: false },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm03t.mp3", true); } },
+        { type: "image", src: "assets/images/00Drm03t.jpg", effect: "cross-dissolve", wait: 500 },
+        {
+            type: "choice",
+            choices: [
+                {
+                    text: "Rampok kasir minimarket",
+                    action: () => {
+                        window.GAME.logic.gotoSeq("Phase00GameSeqDrm03");
+                    }
+                },
+                {
+                    text: "Bertanya kamu ga apa-apa?",
+                    action: () => {
+                        window.GAME.audio.stopDynamicSFX("assets/sounds/Drm03t.mp3");
+                        window.GAME.logic.nextStoryStep();
+                    }
+                }
+            ]
+        },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm04.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm04.mp4" },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm05.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm05.mp4" },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm06.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm06.mp4", skippable: false },
+        { type: "action", action: () => { window.GAME.logic.gotoSeq("Phase00GameSeqDrm07"); } }
+    ];
+}
+
+export function Phase00GameSeqDrm03() {
+    return [
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm03t.mp3", true); } },
+        { type: "image", src: "assets/images/00Drm03_1.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "Jangan gitu ka..." },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "Tolong ka..." },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "Kita udah ga punya apa-apa lagi" },
+        {
+            type: "choice", retainDialogue: true,
+            choices: [
+                {
+                    text: "Pergi dari minimarket",
+                    action: () => {
+                        window.GAME.audio.stopDynamicSFX("assets/sounds/Drm03t.mp3");
+                        window.GAME.logic.gotoSeq("Phase00GameSeqDrm05");
+                    }
+                },
+                {
+                    text: "Todongkan pisau",
+                    action: () => { window.GAME.logic.nextStoryStep(); }
+                }
+            ]
+        },
+        { type: "image", src: "assets/images/00Drm03_2.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "..." },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "Oke..Oke ka..tenang.." },
+        { type: "image", src: "assets/images/00Drm03_3.jpg", effect: "cross-dissolve", wait: 500 },
+        {
+            type: "choice", retainDialogue: true,
+            choices: [
+                {
+                    text: "Pergi dari minimarket",
+                    action: () => {
+                        window.GAME.audio.stopDynamicSFX("assets/sounds/Drm03t.mp3");
+                        window.GAME.logic.gotoSeq("Phase00GameSeqDrm05");
+                    }
+                },
+                {
+                    text: "Tanya apa masih ada uang tersisa?",
+                    action: () => { window.GAME.logic.nextStoryStep(); }
+                }
+            ]
+        },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "I.. Ini udah semua ka.." },
+        {
+            type: "choice", retainDialogue: true,
+            choices: [
+                {
+                    text: "Pergi dari minimarket",
+                    action: () => {
+                        window.GAME.audio.stopDynamicSFX("assets/sounds/Drm03t.mp3");
+                        window.GAME.logic.gotoSeq("Phase00GameSeqDrm05");
+                    }
+                },
+                {
+                    text: "Jangan Bohong! kasih semuanya!",
+                    action: () => { window.GAME.logic.nextStoryStep(); }
+                }
+            ]
+        },
+        { type: "image", src: "assets/images/00Drm03_4.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "Oke.. Oke ka tenang..." },
+        { type: "image", src: "assets/images/00Drm03_5.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "I.. Ini.. Ini udah semuanya ka.." },
+        {
+            type: "choice", retainDialogue: true,
+            choices: [
+                {
+                    text: "Pergi dari minimarket",
+                    action: () => {
+                        window.GAME.audio.stopDynamicSFX("assets/sounds/Drm03t.mp3");
+                        window.GAME.logic.gotoSeq("Phase00GameSeqDrm06");
+                    }
+                },
+                {
+                    text: "Sekarang buka baju kamu!",
+                    action: () => {
+                        window.GAME.logic.addStat('wis', -5);
+                        window.GAME.logic.addStat('cha', -5);
+                        window.GAME.logic.nextStoryStep();
+                    }
+                }
+            ]
+        },
+        { type: "image", src: "assets/images/00Drm03_2.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "Ka please..." },
+        {
+            type: "choice", retainDialogue: true,
+            choices: [
+                {
+                    text: "Lo mau mati!?",
+                    action: () => {
+                        window.GAME.logic.addStat('wis', -5);
+                        window.GAME.logic.addStat('cha', -5);
+                        window.GAME.logic.nextStoryStep();
+                    }
+                },
+                {
+                    text: "Buka sekarang!",
+                    action: () => {
+                        window.GAME.logic.addStat('wis', -4);
+                        window.GAME.logic.addStat('cha', -4);
+                        window.GAME.logic.nextStoryStep();
+                    }
+                }
+            ]
+        },
+        { type: "image", src: "assets/images/00Drm03_6.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "..." },
+        { type: "image", src: "assets/images/00Drm03_7.jpg", effect: "cross-dissolve", wait: 1000 },
+        { type: "image", src: "assets/images/00Drm03_8.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "dialogue", retainMedia: true, name: "????", color: "gray", text: "..." },
+        {
+            type: "choice", retainDialogue: true,
+            choices: [
+                {
+                    text: "Buka semuanya cepet!",
+                    action: () => {
+                        window.GAME.logic.addStat('wis', -5);
+                        window.GAME.logic.addStat('cha', -5);
+                        window.GAME.audio.stopDynamicSFX("assets/sounds/Drm03t.mp3");
+                        window.GAME.logic.nextStoryStep();
+                    }
+                },
+                {
+                    text: "Sekarang lo ambil posisi di meja belakang!",
+                    action: () => {
+                        window.GAME.logic.addStat('wis', -4);
+                        window.GAME.logic.addStat('cha', -4);
+                        window.GAME.audio.stopDynamicSFX("assets/sounds/Drm03t.mp3");
+                        window.GAME.logic.nextStoryStep();
+                    }
+                }
+            ]
+        },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm05.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm05.mp4", },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm08.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm08.mp4", skippable: false },
+        { type: "action", action: () => { window.GAME.logic.gotoSeq("Phase00Game_Seq00"); } }
+    ];
+}
+
+export function Phase00GameSeqDrm05() {
+    return [
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm06.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm06.mp4", effect: "dip-to-black" },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm07.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm07.mp4", skippable: false },
+        { type: "action", action: () => { window.GAME.logic.gotoSeq("Phase00Game_Seq00"); } }
+    ];
+}
+
+export function Phase00GameSeqDrm06() {
+    return [
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm05.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm05.mp4", effect: "cross-dissolve" },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm08.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm08.mp4", skippable: false },
+        { type: "action", action: () => { window.GAME.logic.gotoSeq("Phase00Game_Seq00"); } }
+    ];
+}
+
+export function Phase00GameSeqDrm07() {
+    return [
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm07.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm07.mp4", skippable: false },
+        { type: "action", action: () => { window.GAME.logic.gotoSeq("Phase00Game_Seq00"); } }
+    ];
+}
+export function Phase00Game_Seq00() {
+    return [
+        {
+            type: "action", action: () => {
+                window.GAME.audio.stopSFX("chaotic");
+                window.GAME.audio.playSFX("swosh");
+                window.GAME.audio.playSFX("citypark");
+            }
+        },
         { bg: "white", effect: "cross-dissolve", wait: 500 },
         { type: "image", src: "assets/images/0Gm10.jpg", effect: "cross-dissolve", wait: 500 },
         {
-            type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "{name}?",
+            type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "...",
             voiceDialogue: "assets/sounds/MayKaget_vo.mp3"
         },
-        { type: "image", src: "assets/images/0Gm11.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "image", src: "assets/images/0Gm01.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "{name}?" },
+        { type: "image", src: "assets/images/0Gm02.jpg", effect: "cross-dissolve", wait: 500 },
         {
             type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Kamu mimpi buruk lagi?",
             voiceDialogue: "assets/sounds/May01_vo.mp3"
         },
-        { type: "image", src: "assets/images/0Gm12.jpg", effect: "cross-dissolve", wait: 1000 },
-        { type: "image", src: "assets/images/0Gm13.jpg", effect: "cross-dissolve", wait: 2000 },
-        { type: "image", src: "assets/images/0Gm14.jpg", effect: "cross-dissolve", wait: 500 },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Drm09.mp3", false); } },
+        { type: "video", src: "assets/videos/Drm09.mp4", effect: "cross-dissolve", skippable: false },
+        { type: "image", src: "assets/images/0Gm24.jpg", effect: "cross-dissolve", wait: 125 },
         {
             type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Muka lo panik banget.",
             voiceDialogue: "assets/sounds/May02_vo.mp3"
         },
+        { type: "image", src: "assets/images/0Gm23.jpg", effect: "cross-dissolve", wait: 500 },
         {
             type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Akhir-akhir ini lo sering banget\nmimpi buruk kaya gini...",
             voiceDialogue: "assets/sounds/May03_vo.mp3"
@@ -51,11 +260,11 @@ export function Phase00Game() {
             type: "choice", retainDialogue: true,
             choices: [
                 {
-                    text: "Gue ga lagi tertekan atau stress kok",
+                    text: "Gapapa ko, gue cuma aga aneh aja",
                     action: () => { window.GAME.logic.nextStoryStep(); }
                 },
                 {
-                    text: "Apa mimpi gue ini pertanda ya?",
+                    text: "Gue ga lagi tertekan atau stress kok",
                     action: () => {
                         window.GAME.logic.addStat('wis', 1);
                         window.GAME.logic.nextStoryStep();
@@ -64,10 +273,10 @@ export function Phase00Game() {
             ]
         },
         { type: "image", src: "assets/images/0Gm14.jpg", effect: "cross-dissolve", wait: 500 },
-        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Masa sih?" },
-        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Tapi..." },
+        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Aneh banget ga sih?" },
+        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Apa mimpi lo itu pertanda?" },
         { type: "image", src: "assets/images/0Gm15.jpg", effect: "cross-dissolve", wait: 500 },
-        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Kadang insting lu emang\nsuka bener sih.." },
+        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Kadang insting lo emang\nsuka bener sih.." },
         { type: "image", src: "assets/images/0Gm16.jpg", effect: "cross-dissolve", wait: 500 },
         { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "..." },
         { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Gue juga khawatir sebenernya," },
@@ -114,12 +323,12 @@ export function Phase00Game() {
                     }
                 },
                 {
-                    text: "Masalahnya, cogannya bakal tulus jagain lo<br>apa engga?",
+                    text: "Gatau ah, Kepala gua masih pusing",
                     action: () => {
                         window.GAME.logic.addStat('love', 2, 'maya');
                         window.GAME.state.stats.last_love_change = { npc: 'maya', val: 2 };
                         window.GAME.logic.addStat('wis', 1);
-                        window.GAME.logic.gotoSeq("Phase00Game_Seq02");
+                        window.GAME.logic.gotoSeq("Phase00Game_Seq01");
                     }
                 },
             ]
@@ -140,7 +349,7 @@ export function Phase00Game_Seq01() {
             type: "choice", retainDialogue: true,
             choices: [
                 {
-                    text: "...Cowok yang mana lagi?",
+                    text: "Hah?",
                     action: () => {
                         window.GAME.logic.addStat('love', 1, 'maya');
                         window.GAME.state.stats.last_love_change = { npc: 'maya', val: 1 };
@@ -148,7 +357,7 @@ export function Phase00Game_Seq01() {
                     }
                 },
                 {
-                    text: "Hah? Kemarin?",
+                    text: "Cowo?",
                     action: () => {
                         window.GAME.logic.addStat('love', 2, 'maya');
                         window.GAME.state.stats.last_love_change = { npc: 'maya', val: 2 };
@@ -234,7 +443,7 @@ export function Phase00Game_Seq02() {
 export function Phase00Game_Seq04() {
     return [
         { type: "image", src: "assets/images/0Gm17.jpg", effect: "cross-dissolve", wait: 500 },
-        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Itu loh... yang anak gym," },
+        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Kemarin gua ketemu di gym," },
         { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Kayanya lo udah pernah ketemu deh," },
         { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "..." },
         { type: "image", src: "assets/images/0Gm20.jpg", effect: "cross-dissolve", wait: 500 },
@@ -248,7 +457,7 @@ export function Phase00Game_Seq04() {
             type: "choice", retainDialogue: true,
             choices: [
                 {
-                    text: "Ko bisa sih dia cuekin lo?",
+                    text: "Ko jadi tiba-tiba curhat sih?",
                     action: () => {
                         window.GAME.logic.addStat('love', 3, 'maya');
                         window.GAME.state.stats.last_love_change = { npc: 'maya', val: 3 };
@@ -256,30 +465,8 @@ export function Phase00Game_Seq04() {
                     }
                 },
                 {
-                    text: "Dia ga tertarik modelan lo kali",
-                    action: () => { window.GAME.logic.nextStoryStep(); }
-                }
-            ]
-        },
-        { type: "image", src: "assets/images/0Gm17.jpg", effect: "cross-dissolve", wait: 500 },
-        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Ih makanya gue heran!" },
-        { type: "image", src: "assets/images/0Gm21.jpg", effect: "cross-dissolve", wait: 500 },
-        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Kenapa sih gua susah banget dapetin cowo yang bener." },
-        { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Yang nyamperin gue cuma orang-orang berengsek." },
-        {
-            type: "choice", retainDialogue: true,
-            choices: [
-                {
-                    text: "Pasti suatu saat nanti lo bakalan dapet<br>cowo yang bener ko",
-                    action: () => {
-                        window.GAME.logic.addStat('love', 2, 'maya');
-                        window.GAME.state.stats.last_love_change = { npc: 'maya', val: 2 };
-                        window.GAME.logic.nextStoryStep();
-                    }
-                },
-                {
-                    text: "Loe-nya aja sih malah nyari yang susah!",
-                    action: () => { window.GAME.logic.nextStoryStep(); }
+                    text: "Udah.. Lo mendingan sama gua aja..",
+                    action: () => { window.GAME.logic.gotoSeq("Phase00Game_Seq04_B"); }
                 }
             ]
         },
@@ -297,15 +484,20 @@ export function Phase00Game_Seq04() {
                     action: () => {
                         window.GAME.logic.addStat('cha', 3);
                         window.GAME.logic.addStat('wis', 1);
-                        window.GAME.logic.nextStoryStep();
+                        window.GAME.logic.gotoSeq("Phase00Game_Seq04_B");
                     }
                 },
                 {
                     text: "Mending lu sama gua aja deh?",
-                    action: () => { window.GAME.logic.nextStoryStep(); }
+                    action: () => { window.GAME.logic.gotoSeq("Phase00Game_Seq04_B"); }
                 }
             ]
         },
+    ];
+}
+
+export function Phase00Game_Seq04_B() {
+    return [
         { type: "image", src: "assets/images/0Gm20.jpg", effect: "cross-dissolve", wait: 500 },
         { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Ih paan sih?" },
         { type: "dialogue", retainMedia: true, name: "Maya", color: "pink", text: "Najis..." },
@@ -314,12 +506,12 @@ export function Phase00Game_Seq04() {
             type: "choice", retainDialogue: true,
             choices: [
                 {
-                    text: "Udah lama juga sih kita temenan kaya gini...",
-                    action: () => { window.GAME.logic.nextStoryStep(); }
+                    text: "Lo jawabnya bestie terus!",
+                    action: () => { window.GAME.logic.gotoSeq("Phase00Game_Seq05"); }
                 },
                 {
-                    text: "Udah bosen gue jadi bestie",
-                    action: () => { window.GAME.logic.nextStoryStep(); }
+                    text: "...",
+                    action: () => { window.GAME.logic.gotoSeq("Phase00Game_Seq05"); }
                 }
             ]
         },
