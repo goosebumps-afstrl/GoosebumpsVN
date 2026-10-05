@@ -2,6 +2,9 @@
 
 const Bar = {
   enter() {
+    GAME.state.currentStorySeq = null;
+    GAME.state.currentStoryStep = 0;
+    GAME.state.currentLocation = "bar";
     const isDay = GAME.state.timePhaseIdx >= 1 && GAME.state.timePhaseIdx <= 3;
     if (isDay) {
       const seq = [

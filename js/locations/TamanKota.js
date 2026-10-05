@@ -79,6 +79,9 @@ const TamanKota = {
   },
 
   enter() {
+    GAME.state.currentStorySeq = null;
+    GAME.state.currentStoryStep = 0;
+    GAME.state.currentLocation = "tamankota";
     const timeSuffix = TamanKota.getTimeSuffix(GAME.state.timePhaseIdx);
     const targetBgm = GAME.state.isPhase00SpecialMap ? "phase00" : "taman";
     

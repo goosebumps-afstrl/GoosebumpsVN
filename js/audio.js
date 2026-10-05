@@ -17,6 +17,7 @@ export const audio = {
   sfxMoney: null,
   sfxDrink: null,
   sfxEat: null,
+  dynamicSFX: {},
 
   currentBGM: null,
   isMusicMuted: false,
@@ -212,6 +213,21 @@ export const audio = {
          sfx.stop();
          sfx.volume(sfx._volume); // Reset internal volume for next time
       });
+    }
+  },
+
+  playDynamicSFX(src, loop = false) {
+    if (this.isSfxMuted) return;
+    if (this.dynamicSFX[src]) {
+        this.dynamicSFX[src].stop();
+    }
+    this.dynamicSFX[src] = new Howl({ src: [src], volume: 0.8, loop: loop, autoplay: true });
+  },
+
+  stopDynamicSFX(src) {
+    if (this.dynamicSFX[src]) {
+        this.dynamicSFX[src].stop();
+        delete this.dynamicSFX[src];
     }
   },
 

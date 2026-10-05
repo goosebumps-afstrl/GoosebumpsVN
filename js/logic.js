@@ -85,22 +85,16 @@ export const logic = {
     } else {
       GAME.state.name = "James";
     }
-    this.changeInputStep("input-step-name", "input-step-condition");
-  },
-
-  setCondition(cond) {
-    if (cond === "good") {
-      GAME.state.stats.cha = 70;
-      GAME.state.stats.wis = 30;
-    } else {
-      GAME.state.stats.cha = 30;
-      GAME.state.stats.wis = 70;
-    }
+    
+    // Set default condition stats
+    GAME.state.stats.cha = 50;
+    GAME.state.stats.wis = 50;
+    
     this.startTutorial();
   },
 
   async startTutorial() {
-    this.changeInputStep("input-step-condition", "input-step-tutorial");
+    this.changeInputStep("input-step-name", "input-step-tutorial");
     await new Promise((resolve) => setTimeout(resolve, 600));
 
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -951,6 +945,8 @@ export const logic = {
     const img02 = `assets/images/0Z0maps_${timeString}_${randomImgIdx}.webp`;
 
     const showMapOverlay = (bgImg) => {
+      GAME.state.currentStorySeq = null;
+      GAME.state.currentStoryStep = 0;
       GAME.state.currentLocation = "city";
       
       // Tampilkan overlay map dengan background image
@@ -1772,10 +1768,36 @@ export const logic = {
               // GAME.logic.initStoryIntro();
             }
           } else {
-            if (GAME.state.storyPhase === 1 || GAME.state.storyPhase === 1.5) {
+            const loc = GAME.state.currentLocation;
+            if (loc === "city") {
+              GAME.ui.changeScene("scene-maingame", "none");
+              GAME.ui.changeView("view-apartment", false);
+              GAME.logic.openCityMap(GAME.state.lastMapImage || null);
+            } else if (loc === "minimarket") {
+              GAME.ui.changeScene("scene-maingame", "none");
+              GAME.ui.changeView("view-apartment", false);
+              if (GAME.locations && GAME.locations.Minimarket) GAME.locations.Minimarket.enter();
+            } else if (loc === "bar") {
+              GAME.ui.changeScene("scene-maingame", "none");
+              GAME.ui.changeView("view-apartment", false);
+              if (GAME.locations && GAME.locations.Bar) GAME.locations.Bar.enter();
+            } else if (loc === "pusatkerja") {
+              GAME.ui.changeScene("scene-maingame", "none");
+              GAME.ui.changeView("view-apartment", false);
+              if (GAME.locations && GAME.locations.PusatKerja) GAME.locations.PusatKerja.enter();
+            } else if (loc === "tamankota") {
+              GAME.ui.changeScene("scene-maingame", "none");
+              GAME.ui.changeView("view-apartment", false);
+              if (GAME.locations && GAME.locations.TamanKota) GAME.locations.TamanKota.enter();
+            } else if (loc === "kantoruxbr") {
+              GAME.ui.changeScene("scene-maingame", "none");
+              GAME.ui.changeView("view-apartment", false);
+              if (GAME.locations && GAME.locations.KantorUXBR) GAME.locations.KantorUXBR.enter();
+            } else if (GAME.state.storyPhase === 1 || GAME.state.storyPhase === 1.5) {
               // GAME.logic.initStoryIntro();
-            } else if (GAME.state.storyPhase === 3)
+            } else if (GAME.state.storyPhase === 3) {
               GAME.logic.triggerStory2Part2();
+            }
           }
         }
       } else {
