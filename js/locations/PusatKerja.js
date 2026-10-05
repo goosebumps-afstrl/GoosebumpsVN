@@ -2,6 +2,9 @@
 
 const PusatKerja = {
   enter() {
+    GAME.state.currentStorySeq = null;
+    GAME.state.currentStoryStep = 0;
+    GAME.state.currentLocation = "pusatkerja";
     const isLateNight = GAME.state.timePhaseIdx === 4 || GAME.state.timePhaseIdx === 5 || GAME.state.timePhaseIdx === 0;
     if (isLateNight) {
       const seq = [

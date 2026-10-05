@@ -2,6 +2,9 @@
 
 const Minimarket = {
   enter() {
+    GAME.state.currentStorySeq = null;
+    GAME.state.currentStoryStep = 0;
+    GAME.state.currentLocation = "minimarket";
     const isNight = GAME.state.timePhaseIdx === 0 || GAME.state.timePhaseIdx >= 4;
     GAME.state.minimarketVisits = (GAME.state.minimarketVisits || 0) + 1;
 

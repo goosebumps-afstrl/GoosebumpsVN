@@ -638,15 +638,18 @@ export function Phase00Game_TVNews() {
             type: "action",
             action: () => {
                 if (window.GAME && window.GAME.logic) {
+                    window.GAME.logic.nextStoryStep();
                     window.GAME.logic.advanceTime(1);
                 }
-                window.GAME.logic.nextStoryStep();
             }
         },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/00Apar01.mp3", false); } },
         { type: "video", src: "assets/videos/00Apar01.mp4", effect: "cross-dissolve", wait: 1000, skippable: false },
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Apar_sfx.mp3", true); } },
         { type: "image", src: "assets/images/00Apart02.jpg", wait: 500 },
         { type: "image", src: "assets/images/00Apart03.jpg", wait: 3000, skippable: true },
         { type: "action", action: () => { window.GAME.audio.stopAllBGM(); } }, // This will fade out the current BGM
+        { type: "action", action: () => { window.GAME.audio.playDynamicSFX("assets/sounds/Berita_sfx.mp3", true); } },
         { type: "image", src: "assets/images/00Apart04.jpg", wait: 1000 },
         { type: "image", src: "assets/videos/001News01.mp4", wait: 2000 },
         {
@@ -716,6 +719,8 @@ export function Phase00Game_TVNews() {
         {
             type: "action",
             action: () => {
+                window.GAME.audio.stopDynamicSFX("assets/sounds/Apar_sfx.mp3");
+                window.GAME.audio.stopDynamicSFX("assets/sounds/Berita_sfx.mp3");
                 if (window.GAME && window.GAME.logic) {
                     window.GAME.logic.postIntroNews();
                 }
